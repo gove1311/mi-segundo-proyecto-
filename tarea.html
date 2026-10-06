@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SENATI - Estudiantes Inscritos</title>
+
+    <link rel="stylesheet" href="diseño.css">
+</head>
+
+<body>
+
+<header>
+
+    <h1>SENATI</h1>
+
+    <p>Estudiantes inscritos</p>
+
+</header>
+
+
+<main class="contenido-programas">
+
+    <h2>ESTUDIANTES INSCRITOS</h2>
+
+    <div id="listaEstudiantes"></div>
+
+    <div class="volver">
+        <a href="principal.html" class="boton">Volver</a>
+    </div>
+
+</main>
+
+
+<footer>
+
+    <h2>SENATI</h2>
+
+    <p>Servicios académicos y registro de estudiantes</p>
+
+    <p>Llámenos: 936491123</p>
+
+</footer>
+
+
+<script>
+
+let estudiantes = JSON.parse(localStorage.getItem("estudiantes")) || [];
+
+let lista = document.getElementById("listaEstudiantes");
+
+
+if (estudiantes.length == 0) {
+
+    lista.innerHTML = "<p style='text-align:center;'>No hay estudiantes registrados.</p>";
+
+} else {
+
+    for (let i = 0; i < estudiantes.length; i++) {
+
+        let estudiante = estudiantes[i];
+
+        let cuadro = document.createElement("section");
+
+        cuadro.className = "cuadro-informacion";
+
+        cuadro.innerHTML = `
+        
+            <div class="icono">
+                👨‍🎓
+            </div>
+
+            <div>
+
+                <h2>${estudiante.nombre}</h2>
+
+                <p><strong>DNI:</strong> ${estudiante.dni}</p>
+
+                <p><strong>Correo:</strong> ${estudiante.correo}</p>
+
+                <p><strong>Teléfono:</strong> ${estudiante.telefono}</p>
+
+                <p><strong>Programa:</strong> ${estudiante.programa}</p>
+
+                <button class="boton" onclick="eliminarEstudiante(${i})">
+                    Eliminar
+                </button>
+
+            </div>
+
+        `;
+
+        lista.appendChild(cuadro);
+    }
+}
+
+
+function eliminarEstudiante(posicion) {
+
+    let confirmar = confirm("¿Desea eliminar los datos de este estudiante?");
+
+    if (confirmar == true) {
+
+        estudiantes.splice(posicion, 1);
+
+        localStorage.setItem("estudiantes", JSON.stringify(estudiantes));
+
+        location.reload();
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>
